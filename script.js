@@ -4,9 +4,8 @@ const toggleBtn = document.getElementById("toggleBtn");
 const resetBtn = document.getElementById("resetBtn");
 
 const RADIUS = 20;
-const SPEED = 220; // пикселей в секунду
+const SPEED = 220;
 
-// начальное состояние — храним отдельно, чтобы можно было вернуться к нему при reset
 const initialState = {
   x: RADIUS + 10,
   y: canvas.height / 2,
@@ -14,7 +13,6 @@ const initialState = {
   vy: SPEED * 0.7,
 };
 
-// текущее состояние мяча (клонируем начальное, чтобы не мутировать оригинал)
 let ball = { ...initialState };
 
 let isRunning = false;
@@ -33,7 +31,6 @@ const updateBall = (deltaSeconds) => {
   ball.x += ball.vx * deltaSeconds;
   ball.y += ball.vy * deltaSeconds;
 
-  // отскок от левой/правой стенки
   if (ball.x - RADIUS < 0) {
     ball.x = RADIUS;
     ball.vx *= -1;
@@ -42,7 +39,6 @@ const updateBall = (deltaSeconds) => {
     ball.vx *= -1;
   }
 
-  // отскок от верхней/нижней стенки
   if (ball.y - RADIUS < 0) {
     ball.y = RADIUS;
     ball.vy *= -1;
@@ -54,7 +50,7 @@ const updateBall = (deltaSeconds) => {
 
 const animate = (timestamp) => {
   if (lastTimestamp === null) {
-    lastTimestamp = timestamp; // первый кадр после старта/резюма — просто фиксируем точку отсчёта
+    lastTimestamp = timestamp;
   }
   const deltaSeconds = (timestamp - lastTimestamp) / 1000;
   lastTimestamp = timestamp;
@@ -67,7 +63,7 @@ const animate = (timestamp) => {
 
 const startAnimation = () => {
   isRunning = true;
-  lastTimestamp = null; // сбрасываем точку отсчёта, чтобы не было скачка после паузы
+  lastTimestamp = null;
   toggleBtn.textContent = "Пауза";
   rafId = requestAnimationFrame(animate);
 };
@@ -95,4 +91,4 @@ resetBtn.addEventListener("click", () => {
   toggleBtn.textContent = "Старт";
 });
 
-drawBall(); // отрисовать начальное состояние до первого запуска
+drawBall();
