@@ -14,7 +14,6 @@ const initialState = {
 };
 
 let ball = { ...initialState };
-
 let isRunning = false;
 let rafId = null;
 let lastTimestamp = null;
